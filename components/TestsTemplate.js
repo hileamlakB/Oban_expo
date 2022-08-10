@@ -84,6 +84,9 @@ export const Test = ({
         }}
       >
         <Text>{testName}</Text>
+        {testState === 'complete' && (
+          <Ionicons name="checkmark" size={24} color="turquoise" />
+        )}
         <ActivityIndicator
           size="small"
           color="#00ff00"

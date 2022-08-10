@@ -26,14 +26,15 @@ export const HalfModal = ({ show, setshow, title, children }) => {
         <View style={CStyle.centerModal}>
           <View
             style={{
+              width: '100%',
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingLeft: 15,
-              paddingRight: 15,
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              alignSelf: 'flex-start',
             }}
           >
-            <Text>{title}</Text>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{title}</Text>
 
             <Pressable
               style={[{ alignSelf: 'flex-end' }]}
@@ -54,49 +55,38 @@ export const HalfModal = ({ show, setshow, title, children }) => {
               />
             </Pressable>
           </View>
-          {children}
+          <View
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: 20,
+            }}
+          >
+            {children}
+          </View>
         </View>
       </View>
     </Modal>
   )
 }
 
-export const FullModal = ({ show, setshow, children }) => {
+export const FullModal = ({ show, onClose, children }) => {
   return (
-    <Modal animationType="slide" transparent={true} visible={show}>
-      <View style={CStyle.fullModal}>
-        <View style={CStyle.centerModal}>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              paddingLeft: 15,
-              paddingRight: 15,
-            }}
-          >
-            <Pressable
-              style={[{ alignSelf: 'flex-end' }]}
-              onPress={() => {
-                setshow(false)
-              }}
-            >
-              <Ionicons
-                name="close-circle-outline"
-                size={20}
-                color="#2196F3"
-                style={{
-                  borderRadius: 10,
-                  padding: 10,
-                  marginRight: 10,
-                  marginLeft: 10,
-                }}
-              />
-            </Pressable>
-          </View>
-          {children}
-        </View>
-      </View>
+    <Modal visible={show} animationType="slide" style={CStyle.fullModal}>
+      <Pressable onPress={onClose}>
+        <Ionicons
+          name="close-circle-outline"
+          size={40}
+          color="#2196F3"
+          style={{
+            borderRadius: 10,
+            padding: 10,
+            marginRight: 10,
+            marginLeft: 10,
+          }}
+        />
+      </Pressable>
+      {children}
     </Modal>
   )
 }
