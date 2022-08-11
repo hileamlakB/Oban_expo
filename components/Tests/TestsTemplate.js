@@ -91,6 +91,7 @@ export const TestGroup = ({ label, tests, groupStatus, score = 0 }) => {
         alignItems: 'center',
         width: '90%',
         alignSelf: 'center',
+        marginBottom: 50,
       }}
     >
       <View style={{ display: 'flex', flexDirection: 'row' }}>

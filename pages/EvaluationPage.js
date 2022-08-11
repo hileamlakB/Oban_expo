@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import EvaluationImage from '../assets/images/phoneEval.svg'
 import { CameraTestGroup } from '../components/Tests/Camera/cameraTest'
+import { DisplayTestGroup } from '../components/Tests/Screen/screenTest'
 
 export const EvaluationPageGuide = ({ show }) => {
   return <Modal animationType="slide" transparent={true} visible={show}></Modal>
@@ -22,9 +23,13 @@ export const EvaluationPage = ({ navigation }) => {
   const [usageExplanation, setusageExplanation] = useState(false)
 
   // group refs
+  const displayRef = useRef(null)
   const cameraRef = useRef(null)
 
-  const testGroups = [<CameraTestGroup ref={cameraRef} />]
+  const testGroups = [
+    <DisplayTestGroup ref={displayRef} />,
+    <CameraTestGroup ref={cameraRef} />,
+  ]
   const testGroupRefs = [cameraRef]
 
   const autoEval = async () => {
