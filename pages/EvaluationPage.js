@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   View,
   Text,
@@ -12,18 +12,26 @@ import { CStyle, wp } from '../utiles/Styles'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import EvaluationImage from '../assets/images/phoneEval.svg'
-import { CameraTestGroup } from '../components/TestGroups'
+import { CameraTestGroup } from '../components/Tests/Camera/cameraTest'
 
 export const EvaluationPageGuide = ({ show }) => {
   return <Modal animationType="slide" transparent={true} visible={show}></Modal>
 }
 
 export const EvaluationPage = ({ navigation }) => {
-  const [cameraTestStat, setcameraTestStat] = useState(true)
   const [usageExplanation, setusageExplanation] = useState(false)
+
+  // group refs
+  const cameraRef = useRef(null)
+
+  const testGroups = [<CameraTestGroup ref={cameraRef} />]
+  const testGroupRefs = [cameraRef]
 
   const autoEval = async () => {
     // a function that auto evals
+    for (let i = 0; i < testGroupRefs.length; i++) {
+      await testGroupRefs[i].current.run()
+    }
   }
 
   return (
@@ -86,8 +94,7 @@ export const EvaluationPage = ({ navigation }) => {
           <Button color="#FFC45A" onPress={autoEval} title="Auto Evaluate" />
         </View>
 
-        {/* Camera test */}
-        <CameraTestGroup />
+        {testGroups}
       </ScrollView>
     </SafeAreaView>
   )
