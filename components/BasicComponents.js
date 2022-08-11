@@ -26,10 +26,9 @@ export const HalfModal = ({ show, setshow, title, children }) => {
         <View style={CStyle.centerModal}>
           <View
             style={{
-              width: '100%',
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'flex-start',
+              justifyContent: 'space-between',
               alignItems: 'center',
               alignSelf: 'flex-start',
             }}

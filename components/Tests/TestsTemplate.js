@@ -7,32 +7,12 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native'
-import { CStyle } from '../utiles/Styles'
-import { ErrorIndicator, HalfModal, CheckBox } from './BasicComponents'
+import { CStyle } from '../../utiles/Styles'
+import { ErrorIndicator, HalfModal, CheckBox } from '../BasicComponents'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { statusColorMap } from '../../utiles/Styles'
 
-export const Test = ({
-  testState,
-  settestState,
-  testValue,
-  iconName,
-  testName,
-  run,
-  message,
-}) => {
-  const colorMap = {
-    failed: '#E04151',
-    complete: '#41E0D0',
-    inprogress: '#e8ed5f',
-    initial: '#D3D3D3',
-  }
-
-  useEffect(() => {
-    // Logic for loading test data from persistant storage goes here
-    //  Take value into consideration, and displaying value
-    return () => {}
-  }, [])
-
+export const Test = ({ testState, iconName, testName, run, message }) => {
   return (
     <View
       style={{
@@ -52,7 +32,7 @@ export const Test = ({
         <View style={CStyle.verticalLine} />
         <TouchableOpacity
           style={{
-            backgroundColor: colorMap[testState],
+            backgroundColor: statusColorMap[testState],
             borderRadius: 50,
             minWidth: 50,
             minHeight: 50,
@@ -119,7 +99,10 @@ export const TestGroup = ({ label, tests, groupStatus, score = 0 }) => {
           style={{ width: 30, height: 30, marginRight: 10 }}
         />
         <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{label}</Text>
-        <Text style={{ fontWeight: 'bold', fontSize: 20 }}> - {score}</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+          {' '}
+          ({Math.round(score * 100) / 100})
+        </Text>
       </View>
 
       <View style={CStyle.verticalLine} />
