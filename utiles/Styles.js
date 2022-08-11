@@ -144,3 +144,10 @@ export const CStyle = StyleSheet.create({
     // backgroundColor: 'turquoise',
   },
 })
+
+export const statusColorMap = {
+  failed: '#E04151',
+  complete: '#41E0D0',
+  inprogress: '#e8ed5f',
+  initial: '#D3D3D3',
+}
