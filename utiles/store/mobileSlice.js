@@ -147,12 +147,6 @@ export const mobileSlice = createSlice({
   reducers: {
     // Update Test Data
     updateTest: (state, action) => {
-      console.log(
-        'updating test',
-        state.mobileEvaluation[action.payload.testGroup][
-          action.payload.testName
-        ].state,
-      )
       state.mobileEvaluation[action.payload.testGroup][
         action.payload.testName
       ].state = action.payload.state

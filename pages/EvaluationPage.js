@@ -14,6 +14,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import EvaluationImage from '../assets/images/phoneEval.svg'
 import { CameraTestGroup } from '../components/Tests/Camera/cameraTest'
 import { DisplayTestGroup } from '../components/Tests/Screen/screenTest'
+import { AudioTestGroup } from '../components/Tests/Audio/audioTest'
 
 export const EvaluationPageGuide = ({ show }) => {
   return <Modal animationType="slide" transparent={true} visible={show}></Modal>
@@ -25,15 +26,17 @@ export const EvaluationPage = ({ navigation }) => {
   // group refs
   const displayRef = useRef(null)
   const cameraRef = useRef(null)
+  const audioRef = useRef(null)
 
   const testGroups = [
-    <DisplayTestGroup ref={displayRef} />,
-    <CameraTestGroup ref={cameraRef} />,
+    <DisplayTestGroup key="displayTestGroup" ref={displayRef} />,
+    <CameraTestGroup key="cameraTestGroup" ref={cameraRef} />,
+    // connectivity
+    <AudioTestGroup key="AudioTestGroup" ref={audioRef} />,
   ]
-  const testGroupRefs = [cameraRef]
+  const testGroupRefs = [displayRef, cameraRef, audioRef]
 
   const autoEval = async () => {
-    // a function that auto evals
     for (let i = 0; i < testGroupRefs.length; i++) {
       await testGroupRefs[i].current.run()
     }
