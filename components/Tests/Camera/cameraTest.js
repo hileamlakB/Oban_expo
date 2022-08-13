@@ -17,11 +17,12 @@ import * as FaceDetector from 'expo-face-detector'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateTest, updateAppraisal } from '../../../utiles/store/mobileSlice'
+import * as Brightness from 'expo-brightness'
 
 // A Camera Modal that takes pictures updates status
 // based on picture taken
 // This components logs error using the set errorMessag function
-const CameraModal = ({
+export const CameraModal = ({
   title,
   show,
   instruction,
@@ -38,7 +39,6 @@ const CameraModal = ({
   const [showActivity, setshowActivity] = useState(!flashTest)
 
   const [cameraReady, setcameraReady] = useState(false)
-  const [photoPath, setphotoPath] = useState('wrong_location')
 
   const [flashMode, setflashMode] = useState(Camera.Constants.FlashMode.off)
 
@@ -96,6 +96,7 @@ const CameraModal = ({
         } else {
           setTest('complete')
         }
+        onClose()
       })
       .catch((err) => {
         // if there is a network error, show a message
@@ -109,14 +110,9 @@ const CameraModal = ({
         alert(
           'Something related to image checker Failed! please connect to the internate and try again!',
         )
+        setTest('failed')
+        onClose()
       })
-      .finally(() => {
-        setTimeout(() => {
-          onClose()
-        })
-      })
-
-    setphotoPath('file://' + flashOn.uri)
   }
 
   const handleFacesDetected = ({ faces }) => {
@@ -150,7 +146,13 @@ const CameraModal = ({
   if (CameraPermision.status !== 'granted' && CameraPermision.canAskAgain) {
     requestCameraPermision()
     return (
-      <FullModal show={show} onClose={onClose}>
+      <FullModal
+        show={show}
+        onClose={() => {
+          setTest('failed')
+          onClose()
+        }}
+      >
         <View
           style={{
             height: '100%',
@@ -165,7 +167,13 @@ const CameraModal = ({
   }
   if (CameraPermision.status !== 'granted' && !CameraPermision.canAskAgain) {
     return (
-      <FullModal show={show} onClose={onClose}>
+      <FullModal
+        show={show}
+        onClose={() => {
+          setTest('failed')
+          onClose()
+        }}
+      >
         <View style={{ height: '100%', justifyContent: 'center' }}>
           <Text>
             No access to camera, you need to enable permission in settings.
@@ -182,7 +190,13 @@ const CameraModal = ({
   }
 
   return (
-    <FullModal show={show} onClose={onClose}>
+    <FullModal
+      show={show}
+      onClose={() => {
+        setTest('failed')
+        onClose()
+      }}
+    >
       <View
         style={{
           flex: 1,
@@ -273,7 +287,13 @@ const BarCodeModal = ({
   if (scannerPermission.status !== 'granted' && scannerPermission.canAskAgain) {
     requestScannerPermision()
     return (
-      <FullModal show={show} onClose={onClose}>
+      <FullModal
+        show={show}
+        onClose={() => {
+          setTest('failed')
+          onClose()
+        }}
+      >
         <View
           style={{
             height: '100%',
@@ -293,7 +313,13 @@ const BarCodeModal = ({
     !scannerPermission.canAskAgain
   ) {
     return (
-      <FullModal show={show} onClose={onClose}>
+      <FullModal
+        show={show}
+        onClose={() => {
+          setTest('failed')
+          onClose()
+        }}
+      >
         <View style={{ height: '100%', justifyContent: 'center' }}>
           <Text>
             No access to camera, you need to enable permission in settings.
@@ -310,7 +336,13 @@ const BarCodeModal = ({
   }
 
   return (
-    <FullModal show={show} onClose={onClose}>
+    <FullModal
+      show={show}
+      onClose={() => {
+        setTest('failed')
+        onClose()
+      }}
+    >
       <View
         style={{
           flex: 1,

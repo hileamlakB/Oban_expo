@@ -11,9 +11,14 @@ export const CheckBox = ({ state, style }) => {
   )
 }
 
-export const HalfModal = ({ show, setshow, title, children }) => {
+export const HalfModal = ({ show, onClose, title, children }) => {
   return (
-    <Modal animationType="slide" transparent={true} visible={show}>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={show}
+      onRequestClose={onClose}
+    >
       <View
         style={{
           flex: 1,
@@ -35,12 +40,7 @@ export const HalfModal = ({ show, setshow, title, children }) => {
           >
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{title}</Text>
 
-            <Pressable
-              style={[{ alignSelf: 'flex-end' }]}
-              onPress={() => {
-                setshow(false)
-              }}
-            >
+            <Pressable style={[{ alignSelf: 'flex-end' }]} onPress={onClose}>
               <Ionicons
                 name="close-circle-outline"
                 size={20}
@@ -97,7 +97,13 @@ export const ErrorIndicator = ({ error, message }) => {
     <></>
   ) : (
     <View>
-      <HalfModal show={showModal} setshow={setshowModal} title={message.title}>
+      <HalfModal
+        show={showModal}
+        onClose={() => {
+          setshowModal(false)
+        }}
+        title={message.title}
+      >
         <Text>{message.error}</Text>
       </HalfModal>
       <Pressable onPress={() => setshowModal(true)}>

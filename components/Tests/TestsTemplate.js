@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import { CStyle } from '../../utiles/Styles'
-import { ErrorIndicator, HalfModal, CheckBox } from '../BasicComponents'
+import { ErrorIndicator, CheckBox } from '../BasicComponents'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { statusColorMap } from '../../utiles/Styles'
 
