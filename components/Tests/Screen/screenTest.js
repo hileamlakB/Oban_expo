@@ -32,7 +32,7 @@ import Proximity from 'react-native-proximity'
 
 // sample test
 export const TouchTest = forwardRef((props, ref) => {
-  const BLOCK_SIZE = useMemo(() => 40, [])
+  const BLOCK_SIZE = useMemo(() => 45, [])
   const [dimenstions, setdimenstions] = useState(null)
   const [blocks, setblocks] = useState([])
 
@@ -56,6 +56,8 @@ export const TouchTest = forwardRef((props, ref) => {
   }))
 
   useEffect(() => {
+    DeviceMotion.setUpdateInterval(8000)
+
     DeviceMotion.addListener((motion) => {
       console.log('change occured', motion.orientation)
       setscreenOrientation(motion.orientation)
@@ -690,10 +692,10 @@ export const DisplayTestGroup = forwardRef((props, ref) => {
       test: {
         touchStat: 5,
         dimStat: 3,
-        pixelTest: 4,
-        discolorTest: 3,
-        whiteSpotTest: 4,
-        proximityTest: 3,
+        // pixelTest: 4,
+        // discolorTest: 3,
+        // whiteSpotTest: 4,
+        // proximityTest: 3,
         rotationTest: 2,
       },
     }
@@ -704,7 +706,7 @@ export const DisplayTestGroup = forwardRef((props, ref) => {
 
   // update appraisal once all the tests are complete
   useEffect(() => {
-    const states = [touch.state, dim.state]
+    const states = [touch.state, dim.state, rotation.state]
 
     let status = 'initial'
     if (states.every((state) => state === 'complete')) {
@@ -719,7 +721,9 @@ export const DisplayTestGroup = forwardRef((props, ref) => {
       setgroupStatus(false)
     }
 
-    let value = touch.appraisedValue / testWeights.total()
+    let value =
+      (touch.appraisedValue + rotation.appraisedValue + dim.appraisedValue) /
+      testWeights.total()
 
     dispatcher(
       updateAppraisal({
@@ -730,19 +734,19 @@ export const DisplayTestGroup = forwardRef((props, ref) => {
     )
 
     return () => {}
-  }, [touch, dim, rotation, proximity])
+  }, [touch, dim, rotation])
 
-  const cameraTests = [
+  const displayTests = [
     <TouchTest ref={touchRef} value={testWeights.test.touchStat} />,
     <DimTest ref={dimRef} value={testWeights.test.dimStat} />,
     <RotationTest ref={rotationRef} value={testWeights.test.rotationTest} />,
     // <ProximityTest ref={proximityRef} value={testWeights.test.proximityTest} />,
   ]
 
-  const displayRefs = [touchRef]
+  const displayRefs = [touchRef, dimRef, rotationRef]
 
   const run = async () => {
-    for (let i = 0; i < cameraRefs.length; i++) {
+    for (let i = 0; i < displayRefs.length; i++) {
       await displayRefs[i].current?.run()
     }
   }
@@ -751,7 +755,7 @@ export const DisplayTestGroup = forwardRef((props, ref) => {
     <>
       <TestGroup
         label="Display Test"
-        tests={cameraTests}
+        tests={displayTests}
         groupStatus={groupStatus}
         score={appraisedValue}
       />

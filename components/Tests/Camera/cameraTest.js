@@ -387,7 +387,7 @@ const BarCodeModal = ({
 }
 
 export const FrontCameraTest = forwardRef((props, ref) => {
-  const testResolveer = useRef(null)
+  const testResolver = useRef(null)
   const testState = useSelector(
     (state) =>
       state.mobileSlice.mobileEvaluation.cameraEvaluation.frontCamera.state,
@@ -413,7 +413,7 @@ export const FrontCameraTest = forwardRef((props, ref) => {
 
   const run = async () => {
     return new Promise((resolve, reject) => {
-      testResolveer.current = { resolve, reject }
+      testResolver.current = { resolve, reject }
       settestState('inprogress')
       setopenCamera(true)
     })
@@ -427,16 +427,16 @@ export const FrontCameraTest = forwardRef((props, ref) => {
         cameraType={CameraType.front}
         setTest={(state) => {
           if (state === 'complete') {
-            testResolveer.current.resolve('success')
+            testResolver.current.resolve('success')
             settestState(state, props.value)
           } else {
-            testResolveer.current.resolve('failed')
+            testResolver.current.resolve('failed')
             settestState(state, -props.value)
           }
         }}
         onClose={() => {
           if (testState !== 'complete') {
-            testResolveer.current?.resolve('failed')
+            testResolver.current?.resolve('failed')
             seterrorMessage({
               title: 'Test Failed',
               error: 'Test closed by user',
@@ -461,7 +461,7 @@ export const FrontCameraTest = forwardRef((props, ref) => {
 })
 
 export const BackCameraTest = forwardRef((props, ref) => {
-  const testResolveer = useRef(null)
+  const testResolver = useRef(null)
   // This should be a global redux state instead of a local one
   const testState = useSelector(
     (state) =>
@@ -487,7 +487,7 @@ export const BackCameraTest = forwardRef((props, ref) => {
 
   const run = async () => {
     return new Promise((resolve, reject) => {
-      testResolveer.current = { resolve, reject }
+      testResolver.current = { resolve, reject }
       settestState('inprogress')
       setopenCamera(true)
     })
@@ -501,16 +501,16 @@ export const BackCameraTest = forwardRef((props, ref) => {
         cameraType={CameraType.back}
         setTest={(state) => {
           if (state === 'complete') {
-            testResolveer.current.resolve('success')
+            testResolver.current.resolve('success')
             settestState(state, props.value)
           } else {
-            testResolveer.current.resolve('failed')
+            testResolver.current.resolve('failed')
             settestState(state, -props.value)
           }
         }}
         onClose={() => {
           if (testState !== 'complete') {
-            testResolveer.current?.resolve('failed')
+            testResolver.current?.resolve('failed')
           }
           setopenCamera(false)
         }}
@@ -531,7 +531,7 @@ export const BackCameraTest = forwardRef((props, ref) => {
 })
 
 export const FlashTest = forwardRef((props, ref) => {
-  const testResolveer = useRef(null)
+  const testResolver = useRef(null)
   const testState = useSelector(
     (state) =>
       state.mobileSlice.mobileEvaluation.cameraEvaluation.cameraFlash.state,
@@ -557,7 +557,7 @@ export const FlashTest = forwardRef((props, ref) => {
 
   const run = async () => {
     return new Promise((resolve, reject) => {
-      testResolveer.current = { resolve, reject }
+      testResolver.current = { resolve, reject }
       settestState('inprogress')
       setshowModal(true)
       return true
@@ -575,17 +575,17 @@ export const FlashTest = forwardRef((props, ref) => {
         cameraType={CameraType.back}
         setTest={(state) => {
           if (state === 'complete') {
-            testResolveer.current.resolve('success')
+            testResolver.current.resolve('success')
             settestState(state, props.value)
           } else {
-            testResolveer.current.resolve('failed')
+            testResolver.current.resolve('failed')
             settestState(state, -props.value)
           }
         }}
         flashTest={true}
         onClose={() => {
           if (testState !== 'complete') {
-            testResolveer.current?.resolve('failed')
+            testResolver.current?.resolve('failed')
           }
           setshowModal(false)
         }}
@@ -603,7 +603,7 @@ export const FlashTest = forwardRef((props, ref) => {
 })
 
 export const VideoTest = forwardRef((props, ref) => {
-  const testResolveer = useRef(null)
+  const testResolver = useRef(null)
   const testState = useSelector(
     (state) =>
       state.mobileSlice.mobileEvaluation.cameraEvaluation.cameraVideo.state,
@@ -636,7 +636,7 @@ export const VideoTest = forwardRef((props, ref) => {
 
   const run = async () => {
     return new Promise((resolve, reject) => {
-      testResolveer.current = { resolve, reject }
+      testResolver.current = { resolve, reject }
 
       if (backCameraTest === 'complete' && cameraFlashTest === 'complete') {
         settestState('complete', props.value)
@@ -670,7 +670,7 @@ export const VideoTest = forwardRef((props, ref) => {
 })
 
 export const QrTest = forwardRef((props, ref) => {
-  const testResolveer = useRef(null)
+  const testResolver = useRef(null)
   const testState = useSelector(
     (state) =>
       state.mobileSlice.mobileEvaluation.cameraEvaluation.qrReader.state,
@@ -698,7 +698,7 @@ export const QrTest = forwardRef((props, ref) => {
 
   const run = async () => {
     return new Promise((resolve, reject) => {
-      testResolveer.current = { resolve, reject }
+      testResolver.current = { resolve, reject }
       setshowModal(true)
     })
   }
@@ -711,16 +711,16 @@ export const QrTest = forwardRef((props, ref) => {
         show={showModal}
         onClose={() => {
           if (testState !== 'complete') {
-            testResolveer.current?.resolve('failed')
+            testResolver.current?.resolve('failed')
           }
           setshowModal(false)
         }}
         setTest={(state) => {
           if (state === 'complete') {
-            testResolveer.current.resolve('success')
+            testResolver.current.resolve('success')
             settestState(state, props.value)
           } else {
-            testResolveer.current.resolve('failed')
+            testResolver.current.resolve('failed')
             settestState(state, -props.value)
           }
         }}
